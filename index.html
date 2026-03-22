@@ -15,6 +15,7 @@
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--fg); overflow-x: hidden; }
     h1, h2, h3, .section-title { font-family: 'Outfit', sans-serif; }
 
+    /* --- Animations --- */
     @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
     @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes bounce-in { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
@@ -22,6 +23,7 @@
     .animate-fade-in { animation: fade-in-up 0.6s ease-out forwards; }
     .delay-1 { animation-delay: 0.1s; opacity: 0; }
 
+    /* --- Background Effects --- */
     .bg-grid {
       position: fixed; inset: 0; z-index: 0; background-size: 40px 40px;
       background-image: linear-gradient(to right, rgba(148, 163, 184, 0.03) 1px, transparent 1px),
@@ -32,9 +34,11 @@
     .orb-1 { width: 500px; height: 500px; background: rgba(6, 182, 212, 0.15); top: -10%; left: -10%; }
     .orb-2 { width: 400px; height: 400px; background: rgba(139, 92, 246, 0.1); bottom: -5%; right: -5%; animation-delay: -10s; }
 
+    /* --- Form Card --- */
     .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; backdrop-filter: blur(12px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05); position: relative; overflow: hidden; }
     .form-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
 
+    /* --- Inputs --- */
     .input-field { width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; color: var(--fg); font-size: 0.95rem; transition: all 0.3s ease; outline: none; }
     .input-field:hover { border-color: rgba(148, 163, 184, 0.3); }
     .input-field:focus { border-color: var(--accent); background: rgba(15, 23, 42, 0.8); box-shadow: 0 0 0 3px var(--accent-glow); }
@@ -42,11 +46,13 @@
     textarea.input-field { min-height: 110px; resize: vertical; }
     select.input-field { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 20px; }
 
+    /* --- File Upload --- */
     .file-upload { position: relative; border: 1px dashed rgba(148, 163, 184, 0.2); border-radius: 16px; padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(15, 23, 42, 0.4); }
     .file-upload:hover { border-color: var(--accent); background: rgba(6, 182, 212, 0.05); transform: translateY(-2px); }
     .file-upload.has-file { border-color: var(--accent); background: rgba(6, 182, 212, 0.1); border-style: solid; }
     .file-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 
+    /* --- Buttons --- */
     .btn-primary { background: linear-gradient(135deg, var(--accent) 0%, #0891b2 100%); color: #020617; font-family: 'Outfit', sans-serif; font-weight: 600; padding: 14px 32px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4); }
     .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
@@ -55,6 +61,7 @@
     .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
     .section-title { color: var(--accent); white-space: nowrap; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase; }
     
+    /* --- Checkbox --- */
     .checkbox-wrapper { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
     .checkbox-wrapper input { position: absolute; opacity: 0; }
     .checkmark { flex-shrink: 0; width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 6px; background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; margin-top: 2px; }
@@ -63,6 +70,7 @@
     .checkmark svg { width: 12px; height: 12px; color: #020617; stroke-width: 3; display: none; }
     .checkbox-wrapper input:checked + .checkmark svg { display: block; }
 
+    /* --- Skill Checkboxes --- */
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
     .skill-checkbox { display: none; }
     .skill-label {
@@ -75,6 +83,7 @@
       border-color: var(--accent); background: rgba(6, 182, 212, 0.15); color: var(--fg);
     }
 
+    /* --- Modal --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
     .modal-overlay.show { display: flex; opacity: 1; }
     .modal-content { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid var(--border); border-radius: 24px; padding: 40px; text-align: center; max-width: 400px; width: 90%; position: relative; overflow: hidden; }
@@ -106,6 +115,7 @@
     <div class="glow-orb orb-2"></div>
   </div>
 
+  <!-- Success Modal -->
   <div id="successModal" class="modal-overlay">
     <div class="modal-content">
       <div class="smiley-container">
@@ -124,13 +134,20 @@
   <div class="relative z-10 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
       <header class="text-center mb-12 animate-fade-in">
+        <!-- Logo Container with GitHub Image -->
         <div class="inline-flex items-center justify-center w-32 h-32 rounded-2xl bg-gradient-to-tr from-cyan-500 to-teal-400 p-[3px] mb-6 shadow-lg shadow-cyan-500/20">
            <div class="w-full h-full rounded-2xl bg-[#030712] flex items-center justify-center overflow-hidden">
              <img src="https://raw.githubusercontent.com/cprec-nepal/logo/main/CPREC%20Nepal.png" alt="CPREC Nepal Logo" class="object-contain w-full h-full p-3">
            </div>
         </div>
+
         <h1 class="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">E.M.S. / CPREC Nepal</h1>
         <p class="text-lg text-[var(--muted)] mt-3">Member Registration Portal</p>
+        <div class="mt-4">
+          <a href="#registrationForm" class="text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors border border-cyan-500/30 px-4 py-2 rounded-full bg-cyan-500/10 backdrop-blur-sm">
+            Join Our Team
+          </a>
+        </div>
       </header>
 
       <form id="registrationForm" class="form-card p-6 sm:p-10 animate-fade-in delay-1">
@@ -142,6 +159,8 @@
             <label class="block text-sm text-[var(--muted)] mb-2">Full Name (as per citizenship)<span class="required">*</span></label>
             <input type="text" id="fullName" class="input-field" placeholder="Enter your full legal name" required>
           </div>
+          
+          <!-- Gender -->
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Gender<span class="required">*</span></label>
             <select id="gender" class="input-field" required>
@@ -152,19 +171,24 @@
               <option value="Prefer not to say">Prefer not to say</option>
             </select>
           </div>
+
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Contact Number<span class="required">*</span></label>
             <input type="tel" id="contactNo" class="input-field" placeholder="+977 98XXXXXXXX" required>
           </div>
+          
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Email Address<span class="required">*</span></label>
             <input type="email" id="email" class="input-field" placeholder="your@email.com" required>
           </div>
+
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Date of Birth (A.D.)<span class="required">*</span></label>
             <input type="date" id="dobAD" class="input-field" required>
             <div id="dobError" class="error-msg"></div>
           </div>
+          
+          <!-- Nepali Calendar DOB -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-2">Date of Birth (B.S.)<span class="required">*</span></label>
             <div class="grid grid-cols-3 gap-2">
@@ -178,6 +202,7 @@
               <select id="dobBS_Day" class="input-field text-sm" required disabled><option value="">Day</option></select>
             </div>
           </div>
+
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Blood Group<span class="required">*</span></label>
             <select id="bloodGroup" class="input-field" required>
@@ -216,7 +241,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Province<span class="required">*</span></label>
-            <select id="province" class="input-field" required><option value="">Select Province</option></select>
+            <select id="province" class="input-field" required disabled><option value="">Loading...</option></select>
           </div>
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">District<span class="required">*</span></label>
@@ -237,7 +262,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Province<span class="required">*</span></label>
-            <select id="provinceTemp" class="input-field" required><option value="">Select Province</option></select>
+            <select id="provinceTemp" class="input-field" required disabled><option value="">Loading...</option></select>
           </div>
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">District<span class="required">*</span></label>
@@ -291,10 +316,12 @@
             <label class="block text-sm text-[var(--muted)] mb-2">Faculty<span class="required">*</span></label>
             <input type="text" id="faculty" class="input-field" placeholder="e.g., B. Pharmacy" required>
           </div>
+          <!-- LinkedIn -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-2">LinkedIn Profile / Portfolio Link (Optional)</label>
             <input type="url" id="linkedin" class="input-field" placeholder="https://linkedin.com/in/yourname">
           </div>
+          <!-- Expanded Core Skills -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-3">Core Skills (Select all that apply)</label>
             <div class="skills-grid">
@@ -304,12 +331,17 @@
                 <input type="checkbox" id="skill4" name="skills" value="Content Writing" class="skill-checkbox"><label for="skill4" class="skill-label">Content Writing</label>
                 <input type="checkbox" id="skill5" name="skills" value="Data Management" class="skill-checkbox"><label for="skill5" class="skill-label">Data Management</label>
                 <input type="checkbox" id="skill6" name="skills" value="Event Planning" class="skill-checkbox"><label for="skill6" class="skill-label">Event Planning</label>
+                <!-- New Skills -->
                 <input type="checkbox" id="skill7" name="skills" value="Photography" class="skill-checkbox"><label for="skill7" class="skill-label">Photography</label>
                 <input type="checkbox" id="skill8" name="skills" value="Video Editing" class="skill-checkbox"><label for="skill8" class="skill-label">Video Editing</label>
                 <input type="checkbox" id="skill9" name="skills" value="Social Media Mgmt" class="skill-checkbox"><label for="skill9" class="skill-label">Social Media Mgmt</label>
                 <input type="checkbox" id="skill10" name="skills" value="Leadership" class="skill-checkbox"><label for="skill10" class="skill-label">Leadership</label>
                 <input type="checkbox" id="skill11" name="skills" value="Research" class="skill-checkbox"><label for="skill11" class="skill-label">Research</label>
                 <input type="checkbox" id="skill12" name="skills" value="Teaching/Mentoring" class="skill-checkbox"><label for="skill12" class="skill-label">Teaching/Mentoring</label>
+                <input type="checkbox" id="skill13" name="skills" value="Programming/Tech" class="skill-checkbox"><label for="skill13" class="skill-label">Programming/Tech</label>
+                <input type="checkbox" id="skill14" name="skills" value="Anchoring/Hosting" class="skill-checkbox"><label for="skill14" class="skill-label">Anchoring/Hosting</label>
+                <input type="checkbox" id="skill15" name="skills" value="Logistics" class="skill-checkbox"><label for="skill15" class="skill-label">Logistics</label>
+                <input type="checkbox" id="skill16" name="skills" value="Fundraising" class="skill-checkbox"><label for="skill16" class="skill-label">Fundraising</label>
             </div>
           </div>
         </div>
@@ -340,6 +372,7 @@
             <label class="block text-sm text-[var(--muted)] mb-2">Why are you joining?<span class="required">*</span></label>
             <textarea id="whyJoining" class="input-field" required></textarea>
           </div>
+          
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm text-[var(--muted)] mb-2">Meetings per month<span class="required">*</span></label>
@@ -356,16 +389,23 @@
                   <option value="General Member">General Member</option>
                   <option value="Volunteer">Volunteer</option>
                 </select>
-                <div id="role-desc-active" class="role-desc"><strong>Active Member:</strong> High engagement.</div>
-                <div id="role-desc-general" class="role-desc"><strong>General Member:</strong> Standard engagement.</div>
-                <div id="role-desc-volunteer" class="role-desc"><strong>Volunteer:</strong> Event-based support.</div>
+                <!-- Dynamic Role Description -->
+                <div id="role-desc-active" class="role-desc">
+                    <strong>Active Member:</strong> High engagement, required attendance at most meetings and events.
+                </div>
+                <div id="role-desc-general" class="role-desc">
+                    <strong>General Member:</strong> Standard engagement, participating in events and select meetings.
+                </div>
+                <div id="role-desc-volunteer" class="role-desc">
+                    <strong>Volunteer:</strong> Event-based support with flexible commitment.
+                </div>
             </div>
           </div>
         </div>
 
         <!-- Documents -->
         <div class="section-divider"><span class="section-title">Document Uploads</span></div>
-        <p class="text-xs text-[var(--muted)] mb-4 pl-1">Accepted formats: .jpg, .jpeg, .png, .pdf. Max 5MB.</p>
+        <p class="text-xs text-[var(--muted)] mb-4 pl-1">Accepted formats: .jpg, .jpeg, .png, .pdf. Maximum file size: 5MB per file.</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Citizenship Certificate<span class="required">*</span></label>
@@ -407,7 +447,7 @@
           <label class="checkbox-wrapper">
             <input type="checkbox" id="terms" required>
             <span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-            <span class="text-sm text-[var(--muted)]">I agree to the rules and professional conduct guidelines.<span class="required">*</span></span>
+            <span class="text-sm text-[var(--muted)]">I agree to the rules and professional conduct guidelines.<span class="required">*</span> <a href="#" onclick="alert('Privacy Policy: Your data is stored securely and used only for registration purposes. Citizenship numbers are encrypted.'); return false;" class="text-cyan-400 hover:underline">Privacy Policy</a>.</span>
           </label>
         </div>
 
@@ -419,42 +459,195 @@
   </div>
 
   <script>
-    // --- CONFIGURATION ---
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzELDLS7aW0fKfoVDP4NlzTZmq6rKl9FsRl1KQiQTmbtTA0lTFDVicQDvcF5xJmcW-h/exec';
+    // ==========================================
+    // NEPALI DATE CONVERTER LOGIC (COMPACT)
+    // ==========================================
+    const BikramSambat = {
+        data: {
+            "2000": [0, 31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30], 
+            "2001": [30, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2002": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2003": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2004": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2005": [31, 32, 31, 32, 30, 31, 30, 30, 29, 30, 29, 30],
+            "2006": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2007": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2008": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2009": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2010": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2011": [30, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2012": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2013": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2014": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2015": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2016": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2017": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2018": [30, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2019": [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2020": [30, 31, 32, 32, 30, 31, 30, 30, 29, 29, 30, 30],
+            "2021": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2022": [30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2023": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2024": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2025": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2026": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2027": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2028": [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2029": [31, 32, 31, 32, 30, 31, 30, 30, 29, 29, 30, 30],
+            "2030": [30, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2031": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2032": [30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2033": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2034": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2035": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2036": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2037": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2038": [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2039": [31, 32, 31, 32, 30, 31, 30, 30, 29, 29, 30, 30],
+            "2040": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2041": [30, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2042": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2043": [30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2044": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2045": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2046": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2047": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2048": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2049": [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2050": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2051": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2052": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2053": [30, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2054": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2055": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2056": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2057": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2058": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2059": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2060": [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2061": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2062": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2063": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2064": [30, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2065": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2066": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2067": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2068": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2069": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2070": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2071": [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2072": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2073": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2074": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2075": [30, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2076": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2077": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2078": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2079": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29],
+            "2080": [31, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2081": [31, 31, 32, 31, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2082": [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2083": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2084": [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
+            "2085": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 30],
+            "2086": [30, 32, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30],
+            "2087": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2088": [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2089": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
+            "2090": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29]
+        },
+        // Reference: BS 2000 starts around April 13, 1943 AD
+        // For simplicity in this form, we implement a direct converter for the range 2000-2090
+        adToBs: function(adDateStr) {
+            // adDateStr format: YYYY-MM-DD
+            if(!adDateStr) return null;
+            const [y, m, d] = adDateStr.split('-').map(Number);
+            const adDate = new Date(y, m - 1, d);
+            
+            // Start of BS 2000 is April 14, 1943 (Approximation for logic base)
+            // We will iterate from a known point. Let's use BS 2000-01-01 = 1943-04-14
+            let bsYear = 2000;
+            let bsMonth = 1; // 1 = Baisakh
+            let bsDay = 1;
+            
+            // Base Date: 1943-04-14
+            let currentDate = new Date(1943, 3, 14); 
 
-    // --- ADDRESS DATA (Static for GitHub Hosting) ---
-    const addressData = {
-      provinces: ["Province 1", "Madhesh Province", "Bagmati Province", "Gandaki Province", "Lumbini Province", "Karnali Province", "Sudurpashchim Province"],
-      districtMap: {
-        "Province 1": ["Bhojpur", "Dhankuta", "Ilam", "Jhapa", "Khotang", "Morang", "Okhaldhunga", "Panchthar", "Sankhuwasabha", "Solukhumbu", "Sunsari", "Taplejung", "Terhathum", "Udayapur"],
-        "Madhesh Province": ["Bara", "Dhanusha", "Mahottari", "Parsa", "Rautahat", "Saptari", "Sarlahi", "Siraha"],
-        "Bagmati Province": ["Bhaktapur", "Chitwan", "Dhading", "Dolakha", "Kathmandu", "Kavrepalanchok", "Lalitpur", "Makwanpur", "Nuwakot", "Ramechhap", "Rasuwa", "Sindhuli", "Sindhupalchok"],
-        "Gandaki Province": ["Baglung", "Gorkha", "Kaski", "Lamjung", "Manang", "Mustang", "Myagdi", "Nawalpur", "Parbat", "Syangja", "Tanahun"],
-        "Lumbini Province": ["Arghakhanchi", "Banke", "Bardiya", "Dang", "Eastern Rukum", "Gulmi", "Kapilvastu", "Parasi", "Palpa", "Pyuthan", "Rolpa", "Rupandehi"],
-        "Karnali Province": ["Dailekh", "Dolpa", "Humla", "Jajarkot", "Jumla", "Kalikot", "Mugu", "Rukum", "Salyan", "Surkhet", "Western Rukum"],
-        "Sudurpashchim Province": ["Achham", "Baitadi", "Bajhang", "Bajura", "Dadeldhura", "Darchula", "Doti", "Kailali", "Kanchanpur"]
-      },
-      // Simplified Local Levels for demo (In production, fetch from backend or use full list)
-      localLevelMap: {
-         // Mapping "Province|District" -> ["Muni 1", "Muni 2"...]
-         // We will simulate this for now or just use a generic list
-      }
+            // If input is before base date (unlikely for this app, but safety)
+            if (adDate < currentDate) return { bsYear: 2000, bsMonth: 1, bsDay: 1 };
+
+            // Calculate total days difference
+            const diffTime = Math.abs(adDate - currentDate);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            while (diffDays > 0) {
+                const daysInMonth = this.data[bsYear.toString()] ? this.data[bsYear.toString()][bsMonth - 1] : 30;
+                
+                if (diffDays > daysInMonth) {
+                    diffDays -= daysInMonth;
+                    bsMonth++;
+                    if (bsMonth > 12) {
+                        bsMonth = 1;
+                        bsYear++;
+                    }
+                } else {
+                    bsDay += (diffDays - 1); // -1 because we start at day 1
+                    diffDays = 0;
+                }
+            }
+            return {
+                bsYear: bsYear,
+                bsMonth: bsMonth.toString().padStart(2, '0'),
+                bsDay: bsDay.toString().padStart(2, '0')
+            };
+        },
+        bsToAd: function(bsYear, bsMonth, bsDay) {
+            // Simple reverse logic to estimate AD date
+            // Iterate from base 2000-01-01 (1943-04-14)
+            if (!this.data[bsYear.toString()]) return new Date(); // Fallback
+
+            let currentBsYear = 2000;
+            let currentBsMonth = 1;
+            
+            // Base Date
+            let adDate = new Date(1943, 3, 14);
+
+            // Add years
+            while (currentBsYear < bsYear) {
+                const yearData = this.data[currentBsYear.toString()];
+                if(yearData) {
+                    const daysInYear = yearData.reduce((a, b) => a + b, 0);
+                    adDate.setDate(adDate.getDate() + daysInYear);
+                }
+                currentBsYear++;
+            }
+
+            // Add months
+            while (currentBsMonth < bsMonth) {
+                const daysInMonth = this.data[bsYear.toString()][currentBsMonth - 1];
+                adDate.setDate(adDate.getDate() + daysInMonth);
+                currentBsMonth++;
+            }
+
+            // Add days
+            adDate.setDate(adDate.getDate() + (bsDay - 1));
+
+            return adDate;
+        }
     };
-
-    // Generate generic local levels for any district to make dropdowns work
-    function getLocalLevels(district) {
-       return ["Municipality", "Sub-Metropolitan City", "Rural Municipality"].map(e => `${district} ${e}`);
-    }
 
     const form = document.getElementById('registrationForm');
     const submitBtn = document.getElementById('submitBtn');
     const modal = document.getElementById('successModal');
+    let addressData = {};
 
-    // --- 1. Initialize B.S. Years ---
+    // --- 1. Initialize B.S. Years Immediately ---
     function initBSYears(id) {
       const select = document.getElementById(id);
       select.innerHTML = '<option value="">Year</option>';
-      for (let y = 2090; y >= 1970; y--) select.innerHTML += `<option value="${y}">${y}</option>`;
+      for (let y = 2090; y >= 1970; y--) {
+        select.innerHTML += `<option value="${y}">${y}</option>`;
+      }
     }
     initBSYears('dobBS_Year');
     initBSYears('citBS_Year');
@@ -467,16 +660,25 @@
         if(val === 'Volunteer') document.getElementById('role-desc-volunteer').classList.add('active');
     }
 
-    // --- 3. Populate Provinces (Static) ---
+    // --- 3. Load Address Data ---
+    document.addEventListener('DOMContentLoaded', function() {
+      google.script.run
+        .withSuccessHandler(data => {
+          addressData = data;
+          populateProvinces('province');
+          populateProvinces('provinceTemp');
+        })
+        .getDropdownData();
+    });
+
     function populateProvinces(id) {
       const select = document.getElementById(id);
       select.innerHTML = '<option value="">Select Province</option>';
-      addressData.provinces.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
+      addressData.provinces.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`); 
+      select.disabled = false;
     }
-    populateProvinces('province');
-    populateProvinces('provinceTemp');
 
-    // --- 4. Address Dropdown Logic ---
+    // --- 4. Address Dropdown Logic (Generic) ---
     function handleAddressChange(prefix) {
       const provId = prefix === 'perm' ? 'province' : 'provinceTemp';
       const distId = prefix === 'perm' ? 'district' : 'districtTemp';
@@ -501,28 +703,28 @@
     }
 
     function handleDistrictChange(prefix) {
+      const provId = prefix === 'perm' ? 'province' : 'provinceTemp';
       const distId = prefix === 'perm' ? 'district' : 'districtTemp';
       const localId = prefix === 'perm' ? 'localLevel' : 'localLevelTemp';
 
+      const prov = document.getElementById(provId).value;
       const dist = document.getElementById(distId).value;
       const localSelect = document.getElementById(localId);
       
       localSelect.innerHTML = '<option value="">Select Local Level</option>';
       
-      if (dist) {
-        // Since we don't have every local level mapped in this static snippet, 
-        // we enable the input or populate a generic example. 
-        // Ideally, you would fetch this from a backend or paste the full JSON.
-        // For now, we will allow manual entry or generic selection.
-        localSelect.innerHTML += `<option value="${dist} Municipality">${dist} Municipality</option>`;
-        localSelect.innerHTML += `<option value="${dist} Sub-Metropolitan City">${dist} Sub-Metropolitan City</option>`;
-        localSelect.innerHTML += `<option value="${dist} Rural Municipality">${dist} Rural Municipality</option>`;
-        localSelect.disabled = false;
+      if (prov && dist) {
+        const key = prov + "|" + dist;
+        if (addressData.localLevelMap[key]) {
+          addressData.localLevelMap[key].forEach(l => localSelect.innerHTML += `<option value="${l}">${l}</option>`);
+          localSelect.disabled = false;
+        }
       } else {
         localSelect.disabled = true;
       }
     }
 
+    // Attach Listeners
     document.getElementById('province').addEventListener('change', () => handleAddressChange('perm'));
     document.getElementById('district').addEventListener('change', () => handleDistrictChange('perm'));
     document.getElementById('provinceTemp').addEventListener('change', () => handleAddressChange('temp'));
@@ -555,7 +757,28 @@
     document.getElementById('citBS_Year').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
     document.getElementById('citBS_Month').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
 
-    // --- 6. File Upload UI ---
+    // --- UPDATED: Auto Convert AD to BS for DOB (Year Only) ---
+    document.getElementById('dobAD').addEventListener('change', function(e) {
+        const val = e.target.value;
+        if(!val) return;
+        
+        // Auto convert
+        const bsDate = BikramSambat.adToBs(val);
+        if(bsDate) {
+            // ONLY set the Year
+            document.getElementById('dobBS_Year').value = bsDate.bsYear;
+            
+            // Reset Month and Day to force manual selection
+            document.getElementById('dobBS_Month').value = "";
+            
+            // Reset Day dropdown and disable until month is selected
+            const daySelect = document.getElementById('dobBS_Day');
+            daySelect.innerHTML = '<option value="">Day</option>';
+            daySelect.disabled = true;
+        }
+    });
+
+    // --- 6. Form Submission ---
     ['citFile', 'cvFile', 'photoFile'].forEach(id => {
       const input = document.getElementById(id);
       const container = input.closest('.file-upload');
@@ -569,7 +792,6 @@
       });
     });
 
-    // --- Helper: Base64 Converter ---
     function toBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -579,7 +801,6 @@
       });
     }
 
-    // --- Helper: Show/Close Modal ---
     function closeModal() {
       modal.classList.remove('show');
     }
@@ -589,107 +810,144 @@
         el.textContent = message;
         el.classList.add('visible');
     }
+
     function clearErrors() {
         document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
     }
 
-    // --- MAIN FORM SUBMISSION ---
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity(); 
-        return;
-      }
+      if (!form.checkValidity()) return;
       
-      clearErrors(); 
+      clearErrors(); // Reset previous errors
+      
+      // --- Validation Logic ---
+      const dobAD = document.getElementById('dobAD').value;
+      const citYear = document.getElementById('citBS_Year').value;
+      const citMonth = document.getElementById('citBS_Month').value;
+      const citDay = document.getElementById('citBS_Day').value;
+
+      // 1. Convert DOB AD to Date Object
+      const dobDate = new Date(dobAD);
+      const today = new Date();
+
+      // 2. Convert Citizenship BS to AD Date Object
+      const citDate = BikramSambat.bsToAd(parseInt(citYear), parseInt(citMonth), parseInt(citDay));
+
+      // 3. Check Future Dates
+      if (dobDate > today) {
+          showError('dobError', "Date of Birth cannot be in the future.");
+          return;
+      }
+
+      if (citDate > today) {
+          showError('citError', "Citizenship Issuance Date cannot be in the future.");
+          return;
+      }
+
+      // 4. Check 16 Year Gap
+      // Calculate difference in milliseconds
+      const diffTime = citDate - dobDate;
+      const diffDays = diffTime / (1000 * 60 * 60 * 24);
+      const diffYears = diffDays / 365.25;
+
+      if (diffYears < 16) {
+          showError('citError', `Gap must be at least 16 years. Current gap is approximately ${diffYears.toFixed(1)} years.`);
+          return;
+      }
+
+      // If validation passed
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Preparing Data...';
+      submitBtn.textContent = 'Processing...';
 
       try {
-        // 1. Collect Skills
+        // Collect Skills
         const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
 
-        // 2. Prepare Data Object
         const data = {
           fullName: document.getElementById('fullName').value,
           gender: document.getElementById('gender').value,
           contactNo: document.getElementById('contactNo').value,
-          email: document.getElementById('email').value,
           dobAD: document.getElementById('dobAD').value,
           dobBS: `${document.getElementById('dobBS_Year').value}-${document.getElementById('dobBS_Month').value}-${document.getElementById('dobBS_Day').value}`,
-          bloodGroup: document.getElementById('bloodGroup').value,
-          // Emergency
-          emergencyName: document.getElementById('emergencyName').value,
-          emergencyRelation: document.getElementById('emergencyRelation').value,
-          emergencyContact: document.getElementById('emergencyContact').value,
-          // Permanent Address
+          email: document.getElementById('email').value,
+          // Permanent
           province: document.getElementById('province').value,
           district: document.getElementById('district').value,
           localLevel: document.getElementById('localLevel').value,
           wardStreet: document.getElementById('wardStreet').value,
-          // Temporary Address
+          // Temporary
           provinceTemp: document.getElementById('provinceTemp').value,
           districtTemp: document.getElementById('districtTemp').value,
           localLevelTemp: document.getElementById('localLevelTemp').value,
           wardStreetTemp: document.getElementById('wardStreetTemp').value,
-          // Citizenship
+          // Emergency
+          emergencyName: document.getElementById('emergencyName').value,
+          emergencyRelation: document.getElementById('emergencyRelation').value,
+          emergencyContact: document.getElementById('emergencyContact').value,
+          
           citizenshipNo: document.getElementById('citizenshipNo').value,
-          citDateBS: `${document.getElementById('citBS_Year').value}-${document.getElementById('citBS_Month').value}-${document.getElementById('citBS_Day').value}`,
-          // Education
+          citizenshipIssuanceDate: `${document.getElementById('citBS_Year').value}-${document.getElementById('citBS_Month').value}-${document.getElementById('citBS_Day').value}`,
+          bloodGroup: document.getElementById('bloodGroup').value,
+          timeDedication: document.getElementById('timeDedication').value,
           collegeName: document.getElementById('collegeName').value,
           yearSemester: document.getElementById('yearSemester').value,
           faculty: document.getElementById('faculty').value,
           linkedin: document.getElementById('linkedin').value,
-          skills: skills.join(', '),
-          // EMS Info
-          timeDedication: document.getElementById('timeDedication').value,
+          skills: skills,
           programsToRun: document.getElementById('programsToRun').value,
           howCanHelp: document.getElementById('howCanHelp').value,
           hearAbout: document.getElementById('hearAbout').value,
           whyJoining: document.getElementById('whyJoining').value,
           meetingsPerMonth: document.getElementById('meetingsPerMonth').value,
           interestedAs: document.getElementById('interestedAs').value,
+          consent: document.getElementById('consent').checked,
+          terms: document.getElementById('terms').checked
         };
 
-        // 3. Process Files to Base64
-        submitBtn.textContent = 'Uploading Files...';
-        
         const citFile = document.getElementById('citFile').files[0];
         const cvFile = document.getElementById('cvFile').files[0];
         const photoFile = document.getElementById('photoFile').files[0];
 
-        if(citFile) data.citFile = await toBase64(citFile);
-        if(cvFile) data.cvFile = await toBase64(cvFile);
-        if(photoFile) data.photoFile = await toBase64(photoFile);
+        if (citFile) { data.citizenshipFile = await toBase64(citFile); data.citizenshipFileName = citFile.name; }
+        if (cvFile) { data.cvFile = await toBase64(cvFile); data.cvFileName = cvFile.name; }
+        if (photoFile) { data.photoFile = await toBase64(photoFile); data.photoFileName = photoFile.name; }
 
-        // 4. Send Data to Google Apps Script
-        submitBtn.textContent = 'Submitting...';
-        
-        const response = await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors', // Required for Google Apps Script Web Apps
-          cache: 'no-cache',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        // Since mode is 'no-cors', we can't read the response.
-        // We assume success if no error was thrown.
-        modal.classList.add('show');
-        form.reset();
-        
-        // Reset UI state
-        document.querySelectorAll('.file-name').forEach(el => { el.textContent = ''; el.classList.add('hidden'); });
-        document.querySelectorAll('.file-upload').forEach(el => el.classList.remove('has-file'));
-        document.getElementById('district').disabled = true;
-        document.getElementById('localLevel').disabled = true;
-        document.getElementById('districtTemp').disabled = true;
-        document.getElementById('localLevelTemp').disabled = true;
-
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Submission failed. Please check your connection and try again.');
-      } finally {
+       fetch("https://script.google.com/macros/s/AKfycbzELDLS7aW0fKfoVDP4NlzTZmq6rKl9FsRl1KQiQTmbtTA0lTFDVicQDvcF5xJmcW-h/exec", {
+  method: "POST",
+  body: JSON.stringify(data),
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
+.then(res => res.json())
+.then(result => {
+  if (result.success) {
+              modal.classList.add('show');
+              form.reset();
+              // Reset UI
+              document.querySelectorAll('.file-upload').forEach(el => { el.classList.remove('has-file'); el.querySelector('.file-name').classList.add('hidden'); });
+              document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
+              clearErrors();
+              
+              ['dobBS', 'citBS'].forEach(p => { 
+                document.getElementById(p + '_Year').value = ""; 
+                document.getElementById(p + '_Month').value = "";
+                document.getElementById(p + '_Day').innerHTML = '<option value="">Day</option>';
+                document.getElementById(p + '_Day').disabled = true;
+              });
+              
+              ['province', 'provinceTemp'].forEach(id => {
+                 document.getElementById(id).value = "";
+                 handleAddressChange(id === 'province' ? 'perm' : 'temp');
+              });
+            }
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Registration';
+          })
+          .submitRegistration(data);
+      } catch (err) {
+        console.error(err);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Registration';
       }
