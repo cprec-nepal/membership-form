@@ -134,9 +134,10 @@
   <div class="relative z-10 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
       <header class="text-center mb-12 animate-fade-in">
+        <!-- Logo Container with GitHub Image -->
         <div class="inline-flex items-center justify-center w-32 h-32 rounded-2xl bg-gradient-to-tr from-cyan-500 to-teal-400 p-[3px] mb-6 shadow-lg shadow-cyan-500/20">
            <div class="w-full h-full rounded-2xl bg-[#030712] flex items-center justify-center overflow-hidden">
-             <img src="https://raw.githubusercontent.com/cprec-nepal/logo/main/CPREC%20Nepal.png" alt="CPREC Nepal Logo" class="object-contain w-full h-full p-3" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-cyan-400 font-bold text-xl\'>CPREC</span>'">
+             <img src="https://raw.githubusercontent.com/cprec-nepal/logo/main/CPREC%20Nepal.png" alt="CPREC Nepal Logo" class="object-contain w-full h-full p-3">
            </div>
         </div>
 
@@ -159,6 +160,7 @@
             <input type="text" id="fullName" class="input-field" placeholder="Enter your full legal name" required>
           </div>
           
+          <!-- Gender -->
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Gender<span class="required">*</span></label>
             <select id="gender" class="input-field" required>
@@ -186,6 +188,7 @@
             <div id="dobError" class="error-msg"></div>
           </div>
           
+          <!-- Nepali Calendar DOB -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-2">Date of Birth (B.S.)<span class="required">*</span></label>
             <div class="grid grid-cols-3 gap-2">
@@ -313,10 +316,12 @@
             <label class="block text-sm text-[var(--muted)] mb-2">Faculty<span class="required">*</span></label>
             <input type="text" id="faculty" class="input-field" placeholder="e.g., B. Pharmacy" required>
           </div>
+          <!-- LinkedIn -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-2">LinkedIn Profile / Portfolio Link (Optional)</label>
             <input type="url" id="linkedin" class="input-field" placeholder="https://linkedin.com/in/yourname">
           </div>
+          <!-- Expanded Core Skills -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-3">Core Skills (Select all that apply)</label>
             <div class="skills-grid">
@@ -326,6 +331,7 @@
                 <input type="checkbox" id="skill4" name="skills" value="Content Writing" class="skill-checkbox"><label for="skill4" class="skill-label">Content Writing</label>
                 <input type="checkbox" id="skill5" name="skills" value="Data Management" class="skill-checkbox"><label for="skill5" class="skill-label">Data Management</label>
                 <input type="checkbox" id="skill6" name="skills" value="Event Planning" class="skill-checkbox"><label for="skill6" class="skill-label">Event Planning</label>
+                <!-- New Skills -->
                 <input type="checkbox" id="skill7" name="skills" value="Photography" class="skill-checkbox"><label for="skill7" class="skill-label">Photography</label>
                 <input type="checkbox" id="skill8" name="skills" value="Video Editing" class="skill-checkbox"><label for="skill8" class="skill-label">Video Editing</label>
                 <input type="checkbox" id="skill9" name="skills" value="Social Media Mgmt" class="skill-checkbox"><label for="skill9" class="skill-label">Social Media Mgmt</label>
@@ -383,6 +389,7 @@
                   <option value="General Member">General Member</option>
                   <option value="Volunteer">Volunteer</option>
                 </select>
+                <!-- Dynamic Role Description -->
                 <div id="role-desc-active" class="role-desc">
                     <strong>Active Member:</strong> High engagement, required attendance at most meetings and events.
                 </div>
@@ -440,29 +447,33 @@
           <label class="checkbox-wrapper">
             <input type="checkbox" id="terms" required>
             <span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-            <span class="text-sm text-[var(--muted)]">I agree to the rules and professional conduct guidelines.<span class="required">*</span> <span class="text-cyan-400 hover:underline cursor-pointer" onclick="document.getElementById('privacyText').classList.toggle('hidden')">Privacy Policy</span>.</span>
+            <span class="text-sm text-[var(--muted)]">I agree to the rules and professional conduct guidelines.<span class="required">*</span> <a href="#" onclick="alert('Privacy Policy: Your data is stored securely and used only for registration purposes. Citizenship numbers are encrypted.'); return false;" class="text-cyan-400 hover:underline">Privacy Policy</a>.</span>
           </label>
-          <div id="privacyText" class="hidden text-xs text-[var(--muted)] bg-[var(--bg-elevated)] p-3 rounded border border-[var(--border)]">
-            Privacy Policy: Your data is stored securely and used only for registration purposes. Citizenship numbers are encrypted.
-          </div>
         </div>
 
         <div class="flex justify-center pt-4">
           <button type="submit" class="btn-primary" id="submitBtn">Submit Registration</button>
         </div>
       </form>
+      
+      <!-- Added URL Requested -->
+      <div class="mt-8 text-center">
+        <p class="text-xs text-[var(--muted)]">
+           Link to this form: 
+           <a href="https://script.google.com/macros/s/AKfycbzELDLS7aW0fKfoVDP4NlzTZmq6rKl9FsRl1KQiQTmbtTA0lTFDVicQDvcF5xJmcW-h/exec" target="_blank" class="text-cyan-500 hover:text-cyan-400 transition-colors hover:underline ml-1">
+             Registration Portal
+           </a>
+        </p>
+      </div>
     </div>
   </div>
 
   <script>
     // ==========================================
-    // GLOBAL STATE FOR ADDRESS DATA
+    // CONFIGURATION
     // ==========================================
-    let addressData = {
-      provinces: [],
-      districtMap: {},
-      localLevelMap: {}
-    };
+    // This is the URL of your GAS Web App. Ensure "Execute as: Me" and "Who has access: Anyone" is selected.
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzELDLS7aW0fKfoVDP4NlzTZmq6rKl9FsRl1KQiQTmbtTA0lTFDVicQDvcF5xJmcW-h/exec";
 
     // ==========================================
     // NEPALI DATE CONVERTER LOGIC
@@ -586,7 +597,7 @@
                         bsYear++;
                     }
                 } else {
-                    bsDay += (diffDays - 1);
+                    bsDay += (diffDays - 1); 
                     diffDays = 0;
                 }
             }
@@ -618,6 +629,7 @@
             }
 
             adDate.setDate(adDate.getDate() + (bsDay - 1));
+
             return adDate;
         }
     };
@@ -625,30 +637,48 @@
     const form = document.getElementById('registrationForm');
     const submitBtn = document.getElementById('submitBtn');
     const modal = document.getElementById('successModal');
+    let addressData = {};
 
-    // --- 1. Load Address Data from Google Sheet ---
+    function initBSYears(id) {
+      const select = document.getElementById(id);
+      select.innerHTML = '<option value="">Year</option>';
+      for (let y = 2090; y >= 1970; y--) {
+        select.innerHTML += `<option value="${y}">${y}</option>`;
+      }
+    }
+    initBSYears('dobBS_Year');
+    initBSYears('citBS_Year');
+
+    function updateRoleDesc(val) {
+        document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
+        if(val === 'Active Member') document.getElementById('role-desc-active').classList.add('active');
+        if(val === 'General Member') document.getElementById('role-desc-general').classList.add('active');
+        if(val === 'Volunteer') document.getElementById('role-desc-volunteer').classList.add('active');
+    }
+
+    // --- Fetch Dropdown Data from GAS ---
     document.addEventListener('DOMContentLoaded', function() {
-      google.script.run
-        .withSuccessHandler(data => {
-          addressData = data;
-          populateProvinces('province');
-          populateProvinces('provinceTemp');
+      fetch(SCRIPT_URL + "?action=dropdowns")
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                addressData = data.data;
+                populateProvinces('province');
+                populateProvinces('provinceTemp');
+            } else {
+                console.error("Error fetching dropdowns:", data.error);
+            }
         })
-        .withFailureHandler(err => {
-          console.error("Failed to load address data:", err);
-          alert("Error loading address data. Please refresh the page.");
-        })
-        .getDropdownData();
+        .catch(err => console.error("Network error:", err));
     });
 
     function populateProvinces(id) {
       const select = document.getElementById(id);
       select.innerHTML = '<option value="">Select Province</option>';
-      select.disabled = false;
       addressData.provinces.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`); 
+      select.disabled = false;
     }
 
-    // --- 2. Address Dropdown Logic ---
     function handleAddressChange(prefix) {
       const provId = prefix === 'perm' ? 'province' : 'provinceTemp';
       const distId = prefix === 'perm' ? 'district' : 'districtTemp';
@@ -688,10 +718,6 @@
         if (addressData.localLevelMap[key]) {
           addressData.localLevelMap[key].forEach(l => localSelect.innerHTML += `<option value="${l}">${l}</option>`);
           localSelect.disabled = false;
-        } else {
-          // If no specific data found for this district (sheet missing data), disable
-          // Optionally, you could generate generic wards here as fallback
-          localSelect.disabled = true;
         }
       } else {
         localSelect.disabled = true;
@@ -703,26 +729,6 @@
     document.getElementById('provinceTemp').addEventListener('change', () => handleAddressChange('temp'));
     document.getElementById('districtTemp').addEventListener('change', () => handleDistrictChange('temp'));
 
-    // --- 3. B.S. Year Initialization ---
-    function initBSYears(id) {
-      const select = document.getElementById(id);
-      select.innerHTML = '<option value="">Year</option>';
-      for (let y = 2090; y >= 1970; y--) {
-        select.innerHTML += `<option value="${y}">${y}</option>`;
-      }
-    }
-    initBSYears('dobBS_Year');
-    initBSYears('citBS_Year');
-
-    // --- 4. Role Description Logic ---
-    function updateRoleDesc(val) {
-        document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
-        if(val === 'Active Member') document.getElementById('role-desc-active').classList.add('active');
-        if(val === 'General Member') document.getElementById('role-desc-general').classList.add('active');
-        if(val === 'Volunteer') document.getElementById('role-desc-volunteer').classList.add('active');
-    }
-
-    // --- 5. Nepali Calendar Day Logic ---
     function updateBSDays(yId, mId, dId) {
       const ySel = document.getElementById(yId);
       const mSel = document.getElementById(mId);
@@ -733,10 +739,9 @@
       dSel.innerHTML = '<option value="">Day</option>';
       if (!year || !month) { dSel.disabled = true; return; }
 
-      let days = 30;
-      if(BikramSambat.data[year] && BikramSambat.data[year][month-1]) {
-          days = BikramSambat.data[year][month-1];
-      }
+      let days = 32;
+      if ([2].includes(month)) days = 31; 
+      if ([8, 9, 10, 11, 12].includes(month)) days = 30;
       
       for (let d = 1; d <= days; d++) {
         const val = d < 10 ? '0' + d : d;
@@ -750,7 +755,6 @@
     document.getElementById('citBS_Year').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
     document.getElementById('citBS_Month').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
 
-    // --- Auto Convert AD to BS for DOB (Year Only) ---
     document.getElementById('dobAD').addEventListener('change', function(e) {
         const val = e.target.value;
         if(!val) return;
@@ -765,7 +769,6 @@
         }
     });
 
-    // --- 6. File Upload UI ---
     ['citFile', 'cvFile', 'photoFile'].forEach(id => {
       const input = document.getElementById(id);
       const container = input.closest('.file-upload');
@@ -802,7 +805,6 @@
         document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
     }
 
-    // --- 7. Form Submission ---
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) return;
@@ -816,7 +818,6 @@
 
       const dobDate = new Date(dobAD);
       const today = new Date();
-
       const citDate = BikramSambat.bsToAd(parseInt(citYear), parseInt(citMonth), parseInt(citDay));
 
       if (dobDate > today) {
@@ -889,45 +890,40 @@
         if (cvFile) { data.cvFile = await toBase64(cvFile); data.cvFileName = cvFile.name; }
         if (photoFile) { data.photoFile = await toBase64(photoFile); data.photoFileName = photoFile.name; }
 
-        // Use google.script.run for submission in Apps Script environment
-        google.script.run
-          .withSuccessHandler(function(response) {
-            if (response.success) {
-                modal.classList.add('show');
-                form.reset();
-                document.querySelectorAll('.file-upload').forEach(el => { el.classList.remove('has-file'); el.querySelector('.file-name').classList.add('hidden'); });
-                document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
-                clearErrors();
-                
-                ['dobBS', 'citBS'].forEach(p => { 
-                    document.getElementById(p + '_Year').value = ""; 
-                    document.getElementById(p + '_Month').value = "";
-                    document.getElementById(p + '_Day').innerHTML = '<option value="">Day</option>';
-                    document.getElementById(p + '_Day').disabled = true;
-                });
-                
-                // Reload address data to reset dropdowns properly
-                ['province', 'provinceTemp'].forEach(id => {
-                    document.getElementById(id).value = "";
-                    handleAddressChange(id === 'province' ? 'perm' : 'temp');
-                });
-            } else {
-                alert("Error: " + response.message);
-            }
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Registration';
-          })
-          .withFailureHandler(function(err) {
-            console.error(err);
-            alert("There was an error submitting the form. Please try again.");
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Registration';
-          })
-          .submitRegistration(data);
+        // FETCH API CALL TO GAS
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+
+        if (result.success) {
+            modal.classList.add('show');
+            form.reset();
+            document.querySelectorAll('.file-upload').forEach(el => { el.classList.remove('has-file'); el.querySelector('.file-name').classList.add('hidden'); });
+            document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
+            clearErrors();
+            
+            ['dobBS', 'citBS'].forEach(p => { 
+                document.getElementById(p + '_Year').value = ""; 
+                document.getElementById(p + '_Month').value = "";
+                document.getElementById(p + '_Day').innerHTML = '<option value="">Day</option>';
+                document.getElementById(p + '_Day').disabled = true;
+            });
+            
+            ['province', 'provinceTemp'].forEach(id => {
+                document.getElementById(id).value = "";
+                handleAddressChange(id === 'province' ? 'perm' : 'temp');
+            });
+        } else {
+            alert('Error: ' + result.message);
+        }
 
       } catch (err) {
-        console.error("Error:", err);
-        alert("Client-side error: " + err.message);
+        console.error(err);
+        alert('An error occurred. Please check console.');
+      } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Registration';
       }
