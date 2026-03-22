@@ -134,10 +134,9 @@
   <div class="relative z-10 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
       <header class="text-center mb-12 animate-fade-in">
-        <!-- Logo Container with GitHub Image -->
         <div class="inline-flex items-center justify-center w-32 h-32 rounded-2xl bg-gradient-to-tr from-cyan-500 to-teal-400 p-[3px] mb-6 shadow-lg shadow-cyan-500/20">
            <div class="w-full h-full rounded-2xl bg-[#030712] flex items-center justify-center overflow-hidden">
-             <img src="https://raw.githubusercontent.com/cprec-nepal/logo/main/CPREC%20Nepal.png" alt="CPREC Nepal Logo" class="object-contain w-full h-full p-3">
+             <img src="https://raw.githubusercontent.com/cprec-nepal/logo/main/CPREC%20Nepal.png" alt="CPREC Nepal Logo" class="object-contain w-full h-full p-3" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-cyan-400 font-bold text-xl\'>CPREC</span>'">
            </div>
         </div>
 
@@ -160,7 +159,6 @@
             <input type="text" id="fullName" class="input-field" placeholder="Enter your full legal name" required>
           </div>
           
-          <!-- Gender -->
           <div>
             <label class="block text-sm text-[var(--muted)] mb-2">Gender<span class="required">*</span></label>
             <select id="gender" class="input-field" required>
@@ -188,7 +186,6 @@
             <div id="dobError" class="error-msg"></div>
           </div>
           
-          <!-- Nepali Calendar DOB -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-2">Date of Birth (B.S.)<span class="required">*</span></label>
             <div class="grid grid-cols-3 gap-2">
@@ -316,12 +313,10 @@
             <label class="block text-sm text-[var(--muted)] mb-2">Faculty<span class="required">*</span></label>
             <input type="text" id="faculty" class="input-field" placeholder="e.g., B. Pharmacy" required>
           </div>
-          <!-- LinkedIn -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-2">LinkedIn Profile / Portfolio Link (Optional)</label>
             <input type="url" id="linkedin" class="input-field" placeholder="https://linkedin.com/in/yourname">
           </div>
-          <!-- Expanded Core Skills -->
           <div class="sm:col-span-2">
             <label class="block text-sm text-[var(--muted)] mb-3">Core Skills (Select all that apply)</label>
             <div class="skills-grid">
@@ -331,7 +326,6 @@
                 <input type="checkbox" id="skill4" name="skills" value="Content Writing" class="skill-checkbox"><label for="skill4" class="skill-label">Content Writing</label>
                 <input type="checkbox" id="skill5" name="skills" value="Data Management" class="skill-checkbox"><label for="skill5" class="skill-label">Data Management</label>
                 <input type="checkbox" id="skill6" name="skills" value="Event Planning" class="skill-checkbox"><label for="skill6" class="skill-label">Event Planning</label>
-                <!-- New Skills -->
                 <input type="checkbox" id="skill7" name="skills" value="Photography" class="skill-checkbox"><label for="skill7" class="skill-label">Photography</label>
                 <input type="checkbox" id="skill8" name="skills" value="Video Editing" class="skill-checkbox"><label for="skill8" class="skill-label">Video Editing</label>
                 <input type="checkbox" id="skill9" name="skills" value="Social Media Mgmt" class="skill-checkbox"><label for="skill9" class="skill-label">Social Media Mgmt</label>
@@ -389,7 +383,6 @@
                   <option value="General Member">General Member</option>
                   <option value="Volunteer">Volunteer</option>
                 </select>
-                <!-- Dynamic Role Description -->
                 <div id="role-desc-active" class="role-desc">
                     <strong>Active Member:</strong> High engagement, required attendance at most meetings and events.
                 </div>
@@ -447,8 +440,11 @@
           <label class="checkbox-wrapper">
             <input type="checkbox" id="terms" required>
             <span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-            <span class="text-sm text-[var(--muted)]">I agree to the rules and professional conduct guidelines.<span class="required">*</span> <a href="#" onclick="alert('Privacy Policy: Your data is stored securely and used only for registration purposes. Citizenship numbers are encrypted.'); return false;" class="text-cyan-400 hover:underline">Privacy Policy</a>.</span>
+            <span class="text-sm text-[var(--muted)]">I agree to the rules and professional conduct guidelines.<span class="required">*</span> <span class="text-cyan-400 hover:underline cursor-pointer" onclick="document.getElementById('privacyText').classList.toggle('hidden')">Privacy Policy</span>.</span>
           </label>
+          <div id="privacyText" class="hidden text-xs text-[var(--muted)] bg-[var(--bg-elevated)] p-3 rounded border border-[var(--border)]">
+            Privacy Policy: Your data is stored securely and used only for registration purposes. Citizenship numbers are encrypted.
+          </div>
         </div>
 
         <div class="flex justify-center pt-4">
@@ -460,7 +456,16 @@
 
   <script>
     // ==========================================
-    // NEPALI DATE CONVERTER LOGIC (COMPACT)
+    // GLOBAL STATE FOR ADDRESS DATA
+    // ==========================================
+    let addressData = {
+      provinces: [],
+      districtMap: {},
+      localLevelMap: {}
+    };
+
+    // ==========================================
+    // NEPALI DATE CONVERTER LOGIC
     // ==========================================
     const BikramSambat = {
         data: {
@@ -556,27 +561,17 @@
             "2089": [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 29, 30],
             "2090": [31, 32, 31, 32, 31, 31, 30, 29, 30, 29, 30, 29]
         },
-        // Reference: BS 2000 starts around April 13, 1943 AD
-        // For simplicity in this form, we implement a direct converter for the range 2000-2090
         adToBs: function(adDateStr) {
-            // adDateStr format: YYYY-MM-DD
             if(!adDateStr) return null;
             const [y, m, d] = adDateStr.split('-').map(Number);
             const adDate = new Date(y, m - 1, d);
-            
-            // Start of BS 2000 is April 14, 1943 (Approximation for logic base)
-            // We will iterate from a known point. Let's use BS 2000-01-01 = 1943-04-14
             let bsYear = 2000;
-            let bsMonth = 1; // 1 = Baisakh
+            let bsMonth = 1; 
             let bsDay = 1;
-            
-            // Base Date: 1943-04-14
             let currentDate = new Date(1943, 3, 14); 
 
-            // If input is before base date (unlikely for this app, but safety)
             if (adDate < currentDate) return { bsYear: 2000, bsMonth: 1, bsDay: 1 };
 
-            // Calculate total days difference
             const diffTime = Math.abs(adDate - currentDate);
             let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -591,7 +586,7 @@
                         bsYear++;
                     }
                 } else {
-                    bsDay += (diffDays - 1); // -1 because we start at day 1
+                    bsDay += (diffDays - 1);
                     diffDays = 0;
                 }
             }
@@ -602,17 +597,11 @@
             };
         },
         bsToAd: function(bsYear, bsMonth, bsDay) {
-            // Simple reverse logic to estimate AD date
-            // Iterate from base 2000-01-01 (1943-04-14)
-            if (!this.data[bsYear.toString()]) return new Date(); // Fallback
-
+            if (!this.data[bsYear.toString()]) return new Date(); 
             let currentBsYear = 2000;
             let currentBsMonth = 1;
-            
-            // Base Date
             let adDate = new Date(1943, 3, 14);
 
-            // Add years
             while (currentBsYear < bsYear) {
                 const yearData = this.data[currentBsYear.toString()];
                 if(yearData) {
@@ -622,16 +611,13 @@
                 currentBsYear++;
             }
 
-            // Add months
             while (currentBsMonth < bsMonth) {
                 const daysInMonth = this.data[bsYear.toString()][currentBsMonth - 1];
                 adDate.setDate(adDate.getDate() + daysInMonth);
                 currentBsMonth++;
             }
 
-            // Add days
             adDate.setDate(adDate.getDate() + (bsDay - 1));
-
             return adDate;
         }
     };
@@ -639,28 +625,8 @@
     const form = document.getElementById('registrationForm');
     const submitBtn = document.getElementById('submitBtn');
     const modal = document.getElementById('successModal');
-    let addressData = {};
 
-    // --- 1. Initialize B.S. Years Immediately ---
-    function initBSYears(id) {
-      const select = document.getElementById(id);
-      select.innerHTML = '<option value="">Year</option>';
-      for (let y = 2090; y >= 1970; y--) {
-        select.innerHTML += `<option value="${y}">${y}</option>`;
-      }
-    }
-    initBSYears('dobBS_Year');
-    initBSYears('citBS_Year');
-
-    // --- 2. Role Description Logic ---
-    function updateRoleDesc(val) {
-        document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
-        if(val === 'Active Member') document.getElementById('role-desc-active').classList.add('active');
-        if(val === 'General Member') document.getElementById('role-desc-general').classList.add('active');
-        if(val === 'Volunteer') document.getElementById('role-desc-volunteer').classList.add('active');
-    }
-
-    // --- 3. Load Address Data ---
+    // --- 1. Load Address Data from Google Sheet ---
     document.addEventListener('DOMContentLoaded', function() {
       google.script.run
         .withSuccessHandler(data => {
@@ -668,17 +634,21 @@
           populateProvinces('province');
           populateProvinces('provinceTemp');
         })
+        .withFailureHandler(err => {
+          console.error("Failed to load address data:", err);
+          alert("Error loading address data. Please refresh the page.");
+        })
         .getDropdownData();
     });
 
     function populateProvinces(id) {
       const select = document.getElementById(id);
       select.innerHTML = '<option value="">Select Province</option>';
-      addressData.provinces.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`); 
       select.disabled = false;
+      addressData.provinces.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`); 
     }
 
-    // --- 4. Address Dropdown Logic (Generic) ---
+    // --- 2. Address Dropdown Logic ---
     function handleAddressChange(prefix) {
       const provId = prefix === 'perm' ? 'province' : 'provinceTemp';
       const distId = prefix === 'perm' ? 'district' : 'districtTemp';
@@ -718,17 +688,39 @@
         if (addressData.localLevelMap[key]) {
           addressData.localLevelMap[key].forEach(l => localSelect.innerHTML += `<option value="${l}">${l}</option>`);
           localSelect.disabled = false;
+        } else {
+          // If no specific data found for this district (sheet missing data), disable
+          // Optionally, you could generate generic wards here as fallback
+          localSelect.disabled = true;
         }
       } else {
         localSelect.disabled = true;
       }
     }
 
-    // Attach Listeners
     document.getElementById('province').addEventListener('change', () => handleAddressChange('perm'));
     document.getElementById('district').addEventListener('change', () => handleDistrictChange('perm'));
     document.getElementById('provinceTemp').addEventListener('change', () => handleAddressChange('temp'));
     document.getElementById('districtTemp').addEventListener('change', () => handleDistrictChange('temp'));
+
+    // --- 3. B.S. Year Initialization ---
+    function initBSYears(id) {
+      const select = document.getElementById(id);
+      select.innerHTML = '<option value="">Year</option>';
+      for (let y = 2090; y >= 1970; y--) {
+        select.innerHTML += `<option value="${y}">${y}</option>`;
+      }
+    }
+    initBSYears('dobBS_Year');
+    initBSYears('citBS_Year');
+
+    // --- 4. Role Description Logic ---
+    function updateRoleDesc(val) {
+        document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
+        if(val === 'Active Member') document.getElementById('role-desc-active').classList.add('active');
+        if(val === 'General Member') document.getElementById('role-desc-general').classList.add('active');
+        if(val === 'Volunteer') document.getElementById('role-desc-volunteer').classList.add('active');
+    }
 
     // --- 5. Nepali Calendar Day Logic ---
     function updateBSDays(yId, mId, dId) {
@@ -741,9 +733,10 @@
       dSel.innerHTML = '<option value="">Day</option>';
       if (!year || !month) { dSel.disabled = true; return; }
 
-      let days = 32;
-      if ([2].includes(month)) days = 31; 
-      if ([8, 9, 10, 11, 12].includes(month)) days = 30;
+      let days = 30;
+      if(BikramSambat.data[year] && BikramSambat.data[year][month-1]) {
+          days = BikramSambat.data[year][month-1];
+      }
       
       for (let d = 1; d <= days; d++) {
         const val = d < 10 ? '0' + d : d;
@@ -757,28 +750,22 @@
     document.getElementById('citBS_Year').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
     document.getElementById('citBS_Month').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
 
-    // --- UPDATED: Auto Convert AD to BS for DOB (Year Only) ---
+    // --- Auto Convert AD to BS for DOB (Year Only) ---
     document.getElementById('dobAD').addEventListener('change', function(e) {
         const val = e.target.value;
         if(!val) return;
         
-        // Auto convert
         const bsDate = BikramSambat.adToBs(val);
         if(bsDate) {
-            // ONLY set the Year
             document.getElementById('dobBS_Year').value = bsDate.bsYear;
-            
-            // Reset Month and Day to force manual selection
             document.getElementById('dobBS_Month').value = "";
-            
-            // Reset Day dropdown and disable until month is selected
             const daySelect = document.getElementById('dobBS_Day');
             daySelect.innerHTML = '<option value="">Day</option>';
             daySelect.disabled = true;
         }
     });
 
-    // --- 6. Form Submission ---
+    // --- 6. File Upload UI ---
     ['citFile', 'cvFile', 'photoFile'].forEach(id => {
       const input = document.getElementById(id);
       const container = input.closest('.file-upload');
@@ -815,26 +802,23 @@
         document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
     }
 
+    // --- 7. Form Submission ---
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) return;
       
-      clearErrors(); // Reset previous errors
+      clearErrors(); 
       
-      // --- Validation Logic ---
       const dobAD = document.getElementById('dobAD').value;
       const citYear = document.getElementById('citBS_Year').value;
       const citMonth = document.getElementById('citBS_Month').value;
       const citDay = document.getElementById('citBS_Day').value;
 
-      // 1. Convert DOB AD to Date Object
       const dobDate = new Date(dobAD);
       const today = new Date();
 
-      // 2. Convert Citizenship BS to AD Date Object
       const citDate = BikramSambat.bsToAd(parseInt(citYear), parseInt(citMonth), parseInt(citDay));
 
-      // 3. Check Future Dates
       if (dobDate > today) {
           showError('dobError', "Date of Birth cannot be in the future.");
           return;
@@ -845,8 +829,6 @@
           return;
       }
 
-      // 4. Check 16 Year Gap
-      // Calculate difference in milliseconds
       const diffTime = citDate - dobDate;
       const diffDays = diffTime / (1000 * 60 * 60 * 24);
       const diffYears = diffDays / 365.25;
@@ -856,12 +838,10 @@
           return;
       }
 
-      // If validation passed
       submitBtn.disabled = true;
       submitBtn.textContent = 'Processing...';
 
       try {
-        // Collect Skills
         const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
 
         const data = {
@@ -871,21 +851,17 @@
           dobAD: document.getElementById('dobAD').value,
           dobBS: `${document.getElementById('dobBS_Year').value}-${document.getElementById('dobBS_Month').value}-${document.getElementById('dobBS_Day').value}`,
           email: document.getElementById('email').value,
-          // Permanent
           province: document.getElementById('province').value,
           district: document.getElementById('district').value,
           localLevel: document.getElementById('localLevel').value,
           wardStreet: document.getElementById('wardStreet').value,
-          // Temporary
           provinceTemp: document.getElementById('provinceTemp').value,
           districtTemp: document.getElementById('districtTemp').value,
           localLevelTemp: document.getElementById('localLevelTemp').value,
           wardStreetTemp: document.getElementById('wardStreetTemp').value,
-          // Emergency
           emergencyName: document.getElementById('emergencyName').value,
           emergencyRelation: document.getElementById('emergencyRelation').value,
           emergencyContact: document.getElementById('emergencyContact').value,
-          
           citizenshipNo: document.getElementById('citizenshipNo').value,
           citizenshipIssuanceDate: `${document.getElementById('citBS_Year').value}-${document.getElementById('citBS_Month').value}-${document.getElementById('citBS_Day').value}`,
           bloodGroup: document.getElementById('bloodGroup').value,
@@ -913,41 +889,45 @@
         if (cvFile) { data.cvFile = await toBase64(cvFile); data.cvFileName = cvFile.name; }
         if (photoFile) { data.photoFile = await toBase64(photoFile); data.photoFileName = photoFile.name; }
 
-       fetch("https://script.google.com/macros/s/AKfycbzELDLS7aW0fKfoVDP4NlzTZmq6rKl9FsRl1KQiQTmbtTA0lTFDVicQDvcF5xJmcW-h/exec", {
-  method: "POST",
-  body: JSON.stringify(data),
-  headers: {
-    "Content-Type": "application/json"
-  }
-})
-.then(res => res.json())
-.then(result => {
-  if (result.success) {
-              modal.classList.add('show');
-              form.reset();
-              // Reset UI
-              document.querySelectorAll('.file-upload').forEach(el => { el.classList.remove('has-file'); el.querySelector('.file-name').classList.add('hidden'); });
-              document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
-              clearErrors();
-              
-              ['dobBS', 'citBS'].forEach(p => { 
-                document.getElementById(p + '_Year').value = ""; 
-                document.getElementById(p + '_Month').value = "";
-                document.getElementById(p + '_Day').innerHTML = '<option value="">Day</option>';
-                document.getElementById(p + '_Day').disabled = true;
-              });
-              
-              ['province', 'provinceTemp'].forEach(id => {
-                 document.getElementById(id).value = "";
-                 handleAddressChange(id === 'province' ? 'perm' : 'temp');
-              });
+        // Use google.script.run for submission in Apps Script environment
+        google.script.run
+          .withSuccessHandler(function(response) {
+            if (response.success) {
+                modal.classList.add('show');
+                form.reset();
+                document.querySelectorAll('.file-upload').forEach(el => { el.classList.remove('has-file'); el.querySelector('.file-name').classList.add('hidden'); });
+                document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
+                clearErrors();
+                
+                ['dobBS', 'citBS'].forEach(p => { 
+                    document.getElementById(p + '_Year').value = ""; 
+                    document.getElementById(p + '_Month').value = "";
+                    document.getElementById(p + '_Day').innerHTML = '<option value="">Day</option>';
+                    document.getElementById(p + '_Day').disabled = true;
+                });
+                
+                // Reload address data to reset dropdowns properly
+                ['province', 'provinceTemp'].forEach(id => {
+                    document.getElementById(id).value = "";
+                    handleAddressChange(id === 'province' ? 'perm' : 'temp');
+                });
+            } else {
+                alert("Error: " + response.message);
             }
             submitBtn.disabled = false;
             submitBtn.textContent = 'Submit Registration';
           })
+          .withFailureHandler(function(err) {
+            console.error(err);
+            alert("There was an error submitting the form. Please try again.");
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Registration';
+          })
           .submitRegistration(data);
+
       } catch (err) {
-        console.error(err);
+        console.error("Error:", err);
+        alert("Client-side error: " + err.message);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Registration';
       }
