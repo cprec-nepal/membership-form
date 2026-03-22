@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E.M.S. / CPREC Nepal Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030712; --bg-elevated: #0f172a; --card: rgba(15, 23, 42, 0.6);
+      --border: rgba(148, 163, 184, 0.1); --fg: #f1f5f9; --muted: #94a3b8;
+      --accent: #06b6d4; --accent-glow: rgba(6, 182, 212, 0.4); --error: #f43f5e;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--fg); overflow-x: hidden; }
+    h1, h2, h3, .section-title { font-family: 'Outfit', sans-serif; }
+
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+    @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce-in { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
+    
+    .animate-fade-in { animation: fade-in-up 0.6s ease-out forwards; }
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; background-size: 40px 40px;
+      background-image: linear-gradient(to right, rgba(148, 163, 184, 0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+      mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    }
+    .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none;}
+    .orb-1 { width: 500px; height: 500px; background: rgba(6, 182, 212, 0.15); top: -10%; left: -10%; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(139, 92, 246, 0.1); bottom: -5%; right: -5%; animation-delay: -10s; }
+
+    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; backdrop-filter: blur(12px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05); position: relative; overflow: hidden; }
+    .form-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+
+    .input-field { width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; color: var(--fg); font-size: 0.95rem; transition: all 0.3s ease; outline: none; }
+    .input-field:hover { border-color: rgba(148, 163, 184, 0.3); }
+    .input-field:focus { border-color: var(--accent); background: rgba(15, 23, 42, 0.8); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .input-field:disabled { opacity: 0.5; cursor: not-allowed; background: rgba(15, 23, 42, 0.3); }
+    textarea.input-field { min-height: 110px; resize: vertical; }
+    select.input-field { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 20px; }
+
+    .file-upload { position: relative; border: 1px dashed rgba(148, 163, 184, 0.2); border-radius: 16px; padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(15, 23, 42, 0.4); }
+    .file-upload:hover { border-color: var(--accent); background: rgba(6, 182, 212, 0.05); transform: translateY(-2px); }
+    .file-upload.has-file { border-color: var(--accent); background: rgba(6, 182, 212, 0.1); border-style: solid; }
+    .file-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    .btn-primary { background: linear-gradient(135deg, var(--accent) 0%, #0891b2 100%); color: #020617; font-family: 'Outfit', sans-serif; font-weight: 600; padding: 14px 32px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4); }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    .section-divider { display: flex; align-items: center; gap: 16px; margin: 32px 0 20px; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+    .section-title { color: var(--accent); white-space: nowrap; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase; }
+    
+    .checkbox-wrapper { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+    .checkbox-wrapper input { position: absolute; opacity: 0; }
+    .checkmark { flex-shrink: 0; width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 6px; background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; margin-top: 2px; }
+    .checkbox-wrapper:hover .checkmark { border-color: var(--accent); }
+    .checkbox-wrapper input:checked + .checkmark { background: var(--accent); border-color: var(--accent); }
+    .checkmark svg { width: 12px; height: 12px; color: #020617; stroke-width: 3; display: none; }
+    .checkbox-wrapper input:checked + .checkmark svg { display: block; }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .skill-checkbox { display: none; }
+    .skill-label {
+      display: flex; align-items: center; justify-content: center;
+      padding: 10px; border: 1px solid var(--border); border-radius: 8px;
+      background: rgba(15, 23, 42, 0.4); cursor: pointer; transition: all 0.2s;
+      font-size: 0.85rem; color: var(--muted); text-align: center;
+    }
+    .skill-checkbox:checked + .skill-label {
+      border-color: var(--accent); background: rgba(6, 182, 212, 0.15); color: var(--fg);
+    }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+    .modal-overlay.show { display: flex; opacity: 1; }
+    .modal-content { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid var(--border); border-radius: 24px; padding: 40px; text-align: center; max-width: 400px; width: 90%; position: relative; overflow: hidden; }
+    .modal-content::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--accent), #2dd4bf); }
+    
+    .smiley-container { width: 80px; height: 80px; margin: 0 auto 24px; background: rgba(6, 182, 212, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: bounce-in 0.6s 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; transform: scale(0); }
+    .smiley-face { width: 60px; height: 60px; background: var(--accent); border-radius: 50%; position: relative; }
+    .smiley-eye { position: absolute; width: 6px; height: 6px; background: #020617; border-radius: 50%; top: 20px; }
+    .eye-left { left: 15px; } .eye-right { right: 15px; }
+    .smiley-mouth { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 30px; height: 15px; border-bottom: 4px solid #020617; border-radius: 0 0 20px 20px; }
+    
+    .modal-title { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 8px; animation: fade-in-up 0.4s 0.4s ease-out forwards; opacity: 0; }
+    .modal-text { color: var(--muted); margin-bottom: 24px; animation: fade-in-up 0.4s 0.5s ease-out forwards; opacity: 0; }
+    .modal-btn { background: var(--accent); color: #020617; font-weight: 600; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; transition: transform 0.2s; animation: fade-in-up 0.4s 0.6s ease-out forwards; opacity: 0; }
+    .modal-btn:hover { transform: scale(1.05); }
+
+    .required { color: var(--accent); margin-left: 2px; }
+    .role-desc { font-size: 0.8rem; color: var(--accent); margin-top: 8px; padding: 10px; background: rgba(6,182,212,0.1); border-radius: 8px; display: none; }
+    .role-desc.active { display: block; animation: fade-in-up 0.3s ease; }
+    
+    .error-msg { color: var(--error); font-size: 0.8rem; margin-top: 4px; display: none; }
+    .error-msg.visible { display: block; animation: fade-in-up 0.3s ease; }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+  </div>
+
+  <div id="successModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="smiley-container">
+        <div class="smiley-face">
+          <div class="smiley-eye eye-left"></div>
+          <div class="smiley-eye eye-right"></div>
+          <div class="smiley-mouth"></div>
+        </div>
+      </div>
+      <h2 class="modal-title">Welcome to the Team!</h2>
+      <p class="modal-text">Your registration has been submitted successfully. We will contact you shortly.</p>
+      <button class="modal-btn" onclick="closeModal()">Continue</button>
+    </div>
+  </div>
+
+  <div class="relative z-10 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <header class="text-center mb-12 animate-fade-in">
+        <div class="inline-flex items-center justify-center w-32 h-32 rounded-2xl bg-gradient-to-tr from-cyan-500 to-teal-400 p-[3px] mb-6 shadow-lg shadow-cyan-500/20">
+           <div class="w-full h-full rounded-2xl bg-[#030712] flex items-center justify-center overflow-hidden">
+             <img src="https://raw.githubusercontent.com/cprec-nepal/logo/main/CPREC%20Nepal.png" alt="CPREC Nepal Logo" class="object-contain w-full h-full p-3">
+           </div>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">E.M.S. / CPREC Nepal</h1>
+        <p class="text-lg text-[var(--muted)] mt-3">Member Registration Portal</p>
+      </header>
+
+      <form id="registrationForm" class="form-card p-6 sm:p-10 animate-fade-in delay-1">
+        
+        <!-- Personal Information -->
+        <div class="section-divider"><span class="section-title">Personal Information</span></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-[var(--muted)] mb-2">Full Name (as per citizenship)<span class="required">*</span></label>
+            <input type="text" id="fullName" class="input-field" placeholder="Enter your full legal name" required>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Gender<span class="required">*</span></label>
+            <select id="gender" class="input-field" required>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Contact Number<span class="required">*</span></label>
+            <input type="tel" id="contactNo" class="input-field" placeholder="+977 98XXXXXXXX" required>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Email Address<span class="required">*</span></label>
+            <input type="email" id="email" class="input-field" placeholder="your@email.com" required>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Date of Birth (A.D.)<span class="required">*</span></label>
+            <input type="date" id="dobAD" class="input-field" required>
+            <div id="dobError" class="error-msg"></div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-[var(--muted)] mb-2">Date of Birth (B.S.)<span class="required">*</span></label>
+            <div class="grid grid-cols-3 gap-2">
+              <select id="dobBS_Year" class="input-field text-sm" required><option value="">Year</option></select>
+              <select id="dobBS_Month" class="input-field text-sm" required><option value="">Month</option>
+                <option value="01">Baisakh</option><option value="02">Jestha</option><option value="03">Ashadh</option>
+                <option value="04">Shrawan</option><option value="05">Bhadra</option><option value="06">Ashwin</option>
+                <option value="07">Kartik</option><option value="08">Mangsir</option><option value="09">Poush</option>
+                <option value="10">Magh</option><option value="11">Falgun</option><option value="12">Chaitra</option>
+              </select>
+              <select id="dobBS_Day" class="input-field text-sm" required disabled><option value="">Day</option></select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Blood Group<span class="required">*</span></label>
+            <select id="bloodGroup" class="input-field" required>
+              <option value="">Select</option><option value="Don't Know">Don't Know</option>
+              <option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option>
+              <option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option>
+              <option value="O+">O+</option><option value="O-">O-</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Emergency Contact -->
+        <div class="bg-[var(--bg-elevated)] rounded-xl p-5 border border-[var(--border)] mb-6">
+            <h3 class="text-white font-medium mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                Emergency Contact Information
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs text-[var(--muted)] mb-1">Full Name</label>
+                    <input type="text" id="emergencyName" class="input-field text-sm py-2" placeholder="Contact Person" required>
+                </div>
+                <div>
+                    <label class="block text-xs text-[var(--muted)] mb-1">Relationship</label>
+                    <input type="text" id="emergencyRelation" class="input-field text-sm py-2" placeholder="e.g. Father, Spouse" required>
+                </div>
+                <div>
+                    <label class="block text-xs text-[var(--muted)] mb-1">Contact Number</label>
+                    <input type="tel" id="emergencyContact" class="input-field text-sm py-2" placeholder="+977..." required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Permanent Address -->
+        <div class="section-divider"><span class="section-title">Permanent Address</span></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Province<span class="required">*</span></label>
+            <select id="province" class="input-field" required><option value="">Select Province</option></select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">District<span class="required">*</span></label>
+            <select id="district" class="input-field" required disabled><option value="">Select District</option></select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Local Level<span class="required">*</span></label>
+            <select id="localLevel" class="input-field" required disabled><option value="">Select Local Level</option></select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Ward / Street<span class="required">*</span></label>
+            <input type="text" id="wardStreet" class="input-field" placeholder="Ward No, Tole" required>
+          </div>
+        </div>
+
+        <!-- Temporary Address -->
+        <div class="section-divider"><span class="section-title">Temporary Address</span></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Province<span class="required">*</span></label>
+            <select id="provinceTemp" class="input-field" required><option value="">Select Province</option></select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">District<span class="required">*</span></label>
+            <select id="districtTemp" class="input-field" required disabled><option value="">Select District</option></select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Local Level<span class="required">*</span></label>
+            <select id="localLevelTemp" class="input-field" required disabled><option value="">Select Local Level</option></select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Ward / Street<span class="required">*</span></label>
+            <input type="text" id="wardStreetTemp" class="input-field" placeholder="Ward No, Tole" required>
+          </div>
+        </div>
+
+        <!-- Citizenship -->
+        <div class="section-divider"><span class="section-title">Citizenship Details</span></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Citizenship Number<span class="required">*</span></label>
+            <input type="text" id="citizenshipNo" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Issuance Date (B.S.)<span class="required">*</span></label>
+            <div class="grid grid-cols-3 gap-2">
+              <select id="citBS_Year" class="input-field text-sm" required><option value="">Year</option></select>
+              <select id="citBS_Month" class="input-field text-sm" required><option value="">Month</option>
+                <option value="01">Baisakh</option><option value="02">Jestha</option><option value="03">Ashadh</option>
+                <option value="04">Shrawan</option><option value="05">Bhadra</option><option value="06">Ashwin</option>
+                <option value="07">Kartik</option><option value="08">Mangsir</option><option value="09">Poush</option>
+                <option value="10">Magh</option><option value="11">Falgun</option><option value="12">Chaitra</option>
+              </select>
+              <select id="citBS_Day" class="input-field text-sm" required disabled><option value="">Day</option></select>
+            </div>
+            <div id="citError" class="error-msg"></div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section-divider"><span class="section-title">Educational Details</span></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-[var(--muted)] mb-2">College Name<span class="required">*</span></label>
+            <input type="text" id="collegeName" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Year / Semester<span class="required">*</span></label>
+            <input type="text" id="yearSemester" class="input-field" placeholder="e.g., 3rd Year - 1st Sem" required>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Faculty<span class="required">*</span></label>
+            <input type="text" id="faculty" class="input-field" placeholder="e.g., B. Pharmacy" required>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-[var(--muted)] mb-2">LinkedIn Profile / Portfolio Link (Optional)</label>
+            <input type="url" id="linkedin" class="input-field" placeholder="https://linkedin.com/in/yourname">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-[var(--muted)] mb-3">Core Skills (Select all that apply)</label>
+            <div class="skills-grid">
+                <input type="checkbox" id="skill1" name="skills" value="Graphic Design" class="skill-checkbox"><label for="skill1" class="skill-label">Graphic Design</label>
+                <input type="checkbox" id="skill2" name="skills" value="Public Speaking" class="skill-checkbox"><label for="skill2" class="skill-label">Public Speaking</label>
+                <input type="checkbox" id="skill3" name="skills" value="First Aid" class="skill-checkbox"><label for="skill3" class="skill-label">First Aid</label>
+                <input type="checkbox" id="skill4" name="skills" value="Content Writing" class="skill-checkbox"><label for="skill4" class="skill-label">Content Writing</label>
+                <input type="checkbox" id="skill5" name="skills" value="Data Management" class="skill-checkbox"><label for="skill5" class="skill-label">Data Management</label>
+                <input type="checkbox" id="skill6" name="skills" value="Event Planning" class="skill-checkbox"><label for="skill6" class="skill-label">Event Planning</label>
+                <input type="checkbox" id="skill7" name="skills" value="Photography" class="skill-checkbox"><label for="skill7" class="skill-label">Photography</label>
+                <input type="checkbox" id="skill8" name="skills" value="Video Editing" class="skill-checkbox"><label for="skill8" class="skill-label">Video Editing</label>
+                <input type="checkbox" id="skill9" name="skills" value="Social Media Mgmt" class="skill-checkbox"><label for="skill9" class="skill-label">Social Media Mgmt</label>
+                <input type="checkbox" id="skill10" name="skills" value="Leadership" class="skill-checkbox"><label for="skill10" class="skill-label">Leadership</label>
+                <input type="checkbox" id="skill11" name="skills" value="Research" class="skill-checkbox"><label for="skill11" class="skill-label">Research</label>
+                <input type="checkbox" id="skill12" name="skills" value="Teaching/Mentoring" class="skill-checkbox"><label for="skill12" class="skill-label">Teaching/Mentoring</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMS Info -->
+        <div class="section-divider"><span class="section-title">E.M.S. Information</span></div>
+        <div class="grid grid-cols-1 gap-6 mb-6">
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Time dedication for E.M.S.<span class="required">*</span></label>
+            <textarea id="timeDedication" class="input-field" required></textarea>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Programs you want to run<span class="required">*</span></label>
+            <textarea id="programsToRun" class="input-field" required></textarea>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">How can E.M.S. help your career?<span class="required">*</span></label>
+            <textarea id="howCanHelp" class="input-field" required></textarea>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">How did you hear about us?<span class="required">*</span></label>
+            <select id="hearAbout" class="input-field" required>
+              <option value="">Select</option><option value="Friends/Seniors">Friends/Seniors</option>
+              <option value="Social Media">Social Media</option><option value="College">College</option><option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Why are you joining?<span class="required">*</span></label>
+            <textarea id="whyJoining" class="input-field" required></textarea>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm text-[var(--muted)] mb-2">Meetings per month<span class="required">*</span></label>
+                <select id="meetingsPerMonth" class="input-field" required>
+                  <option value="">Select</option><option value="All">All meetings</option>
+                  <option value="3-4">3-4 meetings</option><option value="1-2">1-2 meetings</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm text-[var(--muted)] mb-2">Interested as<span class="required">*</span></label>
+                <select id="interestedAs" class="input-field" required oninput="updateRoleDesc(this.value)">
+                  <option value="">Select</option>
+                  <option value="Active Member">Active Member</option>
+                  <option value="General Member">General Member</option>
+                  <option value="Volunteer">Volunteer</option>
+                </select>
+                <div id="role-desc-active" class="role-desc"><strong>Active Member:</strong> High engagement.</div>
+                <div id="role-desc-general" class="role-desc"><strong>General Member:</strong> Standard engagement.</div>
+                <div id="role-desc-volunteer" class="role-desc"><strong>Volunteer:</strong> Event-based support.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="section-divider"><span class="section-title">Document Uploads</span></div>
+        <p class="text-xs text-[var(--muted)] mb-4 pl-1">Accepted formats: .jpg, .jpeg, .png, .pdf. Max 5MB.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Citizenship Certificate<span class="required">*</span></label>
+            <div class="file-upload" id="citUpload">
+              <input type="file" id="citFile" accept="image/*,.pdf" required>
+              <svg class="w-8 h-8 mx-auto mb-2 text-[var(--muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <p class="text-xs text-[var(--muted)]">Click or drag file</p>
+              <p class="file-name text-xs text-[var(--accent)] mt-1 hidden truncate px-2"></p>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">CV / Resume</label>
+            <div class="file-upload" id="cvUpload">
+              <input type="file" id="cvFile" accept="image/*,.pdf,.doc,.docx">
+              <svg class="w-8 h-8 mx-auto mb-2 text-[var(--muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <p class="text-xs text-[var(--muted)]">Optional</p>
+              <p class="file-name text-xs text-[var(--accent)] mt-1 hidden truncate px-2"></p>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--muted)] mb-2">Passport Photo<span class="required">*</span></label>
+            <div class="file-upload" id="photoUpload">
+              <input type="file" id="photoFile" accept="image/*" required>
+              <svg class="w-8 h-8 mx-auto mb-2 text-[var(--muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <p class="text-xs text-[var(--muted)]">Recent photo</p>
+              <p class="file-name text-xs text-[var(--accent)] mt-1 hidden truncate px-2"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consent -->
+        <div class="section-divider"><span class="section-title">Agreement</span></div>
+        <div class="space-y-4 mb-8">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="consent" required>
+            <span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="text-sm text-[var(--muted)]">I permit CPREC Nepal to use my uploaded documents for official purposes.<span class="required">*</span></span>
+          </label>
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="terms" required>
+            <span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="text-sm text-[var(--muted)]">I agree to the rules and professional conduct guidelines.<span class="required">*</span></span>
+          </label>
+        </div>
+
+        <div class="flex justify-center pt-4">
+          <button type="submit" class="btn-primary" id="submitBtn">Submit Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIGURATION ---
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzELDLS7aW0fKfoVDP4NlzTZmq6rKl9FsRl1KQiQTmbtTA0lTFDVicQDvcF5xJmcW-h/exec';
+
+    // --- ADDRESS DATA (Static for GitHub Hosting) ---
+    const addressData = {
+      provinces: ["Province 1", "Madhesh Province", "Bagmati Province", "Gandaki Province", "Lumbini Province", "Karnali Province", "Sudurpashchim Province"],
+      districtMap: {
+        "Province 1": ["Bhojpur", "Dhankuta", "Ilam", "Jhapa", "Khotang", "Morang", "Okhaldhunga", "Panchthar", "Sankhuwasabha", "Solukhumbu", "Sunsari", "Taplejung", "Terhathum", "Udayapur"],
+        "Madhesh Province": ["Bara", "Dhanusha", "Mahottari", "Parsa", "Rautahat", "Saptari", "Sarlahi", "Siraha"],
+        "Bagmati Province": ["Bhaktapur", "Chitwan", "Dhading", "Dolakha", "Kathmandu", "Kavrepalanchok", "Lalitpur", "Makwanpur", "Nuwakot", "Ramechhap", "Rasuwa", "Sindhuli", "Sindhupalchok"],
+        "Gandaki Province": ["Baglung", "Gorkha", "Kaski", "Lamjung", "Manang", "Mustang", "Myagdi", "Nawalpur", "Parbat", "Syangja", "Tanahun"],
+        "Lumbini Province": ["Arghakhanchi", "Banke", "Bardiya", "Dang", "Eastern Rukum", "Gulmi", "Kapilvastu", "Parasi", "Palpa", "Pyuthan", "Rolpa", "Rupandehi"],
+        "Karnali Province": ["Dailekh", "Dolpa", "Humla", "Jajarkot", "Jumla", "Kalikot", "Mugu", "Rukum", "Salyan", "Surkhet", "Western Rukum"],
+        "Sudurpashchim Province": ["Achham", "Baitadi", "Bajhang", "Bajura", "Dadeldhura", "Darchula", "Doti", "Kailali", "Kanchanpur"]
+      },
+      // Simplified Local Levels for demo (In production, fetch from backend or use full list)
+      localLevelMap: {
+         // Mapping "Province|District" -> ["Muni 1", "Muni 2"...]
+         // We will simulate this for now or just use a generic list
+      }
+    };
+
+    // Generate generic local levels for any district to make dropdowns work
+    function getLocalLevels(district) {
+       return ["Municipality", "Sub-Metropolitan City", "Rural Municipality"].map(e => `${district} ${e}`);
+    }
+
+    const form = document.getElementById('registrationForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const modal = document.getElementById('successModal');
+
+    // --- 1. Initialize B.S. Years ---
+    function initBSYears(id) {
+      const select = document.getElementById(id);
+      select.innerHTML = '<option value="">Year</option>';
+      for (let y = 2090; y >= 1970; y--) select.innerHTML += `<option value="${y}">${y}</option>`;
+    }
+    initBSYears('dobBS_Year');
+    initBSYears('citBS_Year');
+
+    // --- 2. Role Description Logic ---
+    function updateRoleDesc(val) {
+        document.querySelectorAll('.role-desc').forEach(el => el.classList.remove('active'));
+        if(val === 'Active Member') document.getElementById('role-desc-active').classList.add('active');
+        if(val === 'General Member') document.getElementById('role-desc-general').classList.add('active');
+        if(val === 'Volunteer') document.getElementById('role-desc-volunteer').classList.add('active');
+    }
+
+    // --- 3. Populate Provinces (Static) ---
+    function populateProvinces(id) {
+      const select = document.getElementById(id);
+      select.innerHTML = '<option value="">Select Province</option>';
+      addressData.provinces.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
+    }
+    populateProvinces('province');
+    populateProvinces('provinceTemp');
+
+    // --- 4. Address Dropdown Logic ---
+    function handleAddressChange(prefix) {
+      const provId = prefix === 'perm' ? 'province' : 'provinceTemp';
+      const distId = prefix === 'perm' ? 'district' : 'districtTemp';
+      const localId = prefix === 'perm' ? 'localLevel' : 'localLevelTemp';
+
+      const provSelect = document.getElementById(provId);
+      const distSelect = document.getElementById(distId);
+      const localSelect = document.getElementById(localId);
+      
+      const prov = provSelect.value;
+      
+      distSelect.innerHTML = '<option value="">Select District</option>';
+      localSelect.innerHTML = '<option value="">Select Local Level</option>';
+      localSelect.disabled = true;
+
+      if (prov && addressData.districtMap[prov]) {
+        addressData.districtMap[prov].forEach(d => distSelect.innerHTML += `<option value="${d}">${d}</option>`);
+        distSelect.disabled = false;
+      } else {
+        distSelect.disabled = true;
+      }
+    }
+
+    function handleDistrictChange(prefix) {
+      const distId = prefix === 'perm' ? 'district' : 'districtTemp';
+      const localId = prefix === 'perm' ? 'localLevel' : 'localLevelTemp';
+
+      const dist = document.getElementById(distId).value;
+      const localSelect = document.getElementById(localId);
+      
+      localSelect.innerHTML = '<option value="">Select Local Level</option>';
+      
+      if (dist) {
+        // Since we don't have every local level mapped in this static snippet, 
+        // we enable the input or populate a generic example. 
+        // Ideally, you would fetch this from a backend or paste the full JSON.
+        // For now, we will allow manual entry or generic selection.
+        localSelect.innerHTML += `<option value="${dist} Municipality">${dist} Municipality</option>`;
+        localSelect.innerHTML += `<option value="${dist} Sub-Metropolitan City">${dist} Sub-Metropolitan City</option>`;
+        localSelect.innerHTML += `<option value="${dist} Rural Municipality">${dist} Rural Municipality</option>`;
+        localSelect.disabled = false;
+      } else {
+        localSelect.disabled = true;
+      }
+    }
+
+    document.getElementById('province').addEventListener('change', () => handleAddressChange('perm'));
+    document.getElementById('district').addEventListener('change', () => handleDistrictChange('perm'));
+    document.getElementById('provinceTemp').addEventListener('change', () => handleAddressChange('temp'));
+    document.getElementById('districtTemp').addEventListener('change', () => handleDistrictChange('temp'));
+
+    // --- 5. Nepali Calendar Day Logic ---
+    function updateBSDays(yId, mId, dId) {
+      const ySel = document.getElementById(yId);
+      const mSel = document.getElementById(mId);
+      const dSel = document.getElementById(dId);
+      const year = parseInt(ySel.value);
+      const month = parseInt(mSel.value);
+      
+      dSel.innerHTML = '<option value="">Day</option>';
+      if (!year || !month) { dSel.disabled = true; return; }
+
+      let days = 32;
+      if ([2].includes(month)) days = 31; 
+      if ([8, 9, 10, 11, 12].includes(month)) days = 30;
+      
+      for (let d = 1; d <= days; d++) {
+        const val = d < 10 ? '0' + d : d;
+        dSel.innerHTML += `<option value="${val}">${d}</option>`;
+      }
+      dSel.disabled = false;
+    }
+
+    document.getElementById('dobBS_Year').onchange = () => updateBSDays('dobBS_Year', 'dobBS_Month', 'dobBS_Day');
+    document.getElementById('dobBS_Month').onchange = () => updateBSDays('dobBS_Year', 'dobBS_Month', 'dobBS_Day');
+    document.getElementById('citBS_Year').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
+    document.getElementById('citBS_Month').onchange = () => updateBSDays('citBS_Year', 'citBS_Month', 'citBS_Day');
+
+    // --- 6. File Upload UI ---
+    ['citFile', 'cvFile', 'photoFile'].forEach(id => {
+      const input = document.getElementById(id);
+      const container = input.closest('.file-upload');
+      const nameEl = container.querySelector('.file-name');
+      input.addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+          container.classList.add('has-file');
+          nameEl.textContent = e.target.files[0].name;
+          nameEl.classList.remove('hidden');
+        }
+      });
+    });
+
+    // --- Helper: Base64 Converter ---
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    // --- Helper: Show/Close Modal ---
+    function closeModal() {
+      modal.classList.remove('show');
+    }
+
+    function showError(elementId, message) {
+        const el = document.getElementById(elementId);
+        el.textContent = message;
+        el.classList.add('visible');
+    }
+    function clearErrors() {
+        document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
+    }
+
+    // --- MAIN FORM SUBMISSION ---
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity(); 
+        return;
+      }
+      
+      clearErrors(); 
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Preparing Data...';
+
+      try {
+        // 1. Collect Skills
+        const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
+
+        // 2. Prepare Data Object
+        const data = {
+          fullName: document.getElementById('fullName').value,
+          gender: document.getElementById('gender').value,
+          contactNo: document.getElementById('contactNo').value,
+          email: document.getElementById('email').value,
+          dobAD: document.getElementById('dobAD').value,
+          dobBS: `${document.getElementById('dobBS_Year').value}-${document.getElementById('dobBS_Month').value}-${document.getElementById('dobBS_Day').value}`,
+          bloodGroup: document.getElementById('bloodGroup').value,
+          // Emergency
+          emergencyName: document.getElementById('emergencyName').value,
+          emergencyRelation: document.getElementById('emergencyRelation').value,
+          emergencyContact: document.getElementById('emergencyContact').value,
+          // Permanent Address
+          province: document.getElementById('province').value,
+          district: document.getElementById('district').value,
+          localLevel: document.getElementById('localLevel').value,
+          wardStreet: document.getElementById('wardStreet').value,
+          // Temporary Address
+          provinceTemp: document.getElementById('provinceTemp').value,
+          districtTemp: document.getElementById('districtTemp').value,
+          localLevelTemp: document.getElementById('localLevelTemp').value,
+          wardStreetTemp: document.getElementById('wardStreetTemp').value,
+          // Citizenship
+          citizenshipNo: document.getElementById('citizenshipNo').value,
+          citDateBS: `${document.getElementById('citBS_Year').value}-${document.getElementById('citBS_Month').value}-${document.getElementById('citBS_Day').value}`,
+          // Education
+          collegeName: document.getElementById('collegeName').value,
+          yearSemester: document.getElementById('yearSemester').value,
+          faculty: document.getElementById('faculty').value,
+          linkedin: document.getElementById('linkedin').value,
+          skills: skills.join(', '),
+          // EMS Info
+          timeDedication: document.getElementById('timeDedication').value,
+          programsToRun: document.getElementById('programsToRun').value,
+          howCanHelp: document.getElementById('howCanHelp').value,
+          hearAbout: document.getElementById('hearAbout').value,
+          whyJoining: document.getElementById('whyJoining').value,
+          meetingsPerMonth: document.getElementById('meetingsPerMonth').value,
+          interestedAs: document.getElementById('interestedAs').value,
+        };
+
+        // 3. Process Files to Base64
+        submitBtn.textContent = 'Uploading Files...';
+        
+        const citFile = document.getElementById('citFile').files[0];
+        const cvFile = document.getElementById('cvFile').files[0];
+        const photoFile = document.getElementById('photoFile').files[0];
+
+        if(citFile) data.citFile = await toBase64(citFile);
+        if(cvFile) data.cvFile = await toBase64(cvFile);
+        if(photoFile) data.photoFile = await toBase64(photoFile);
+
+        // 4. Send Data to Google Apps Script
+        submitBtn.textContent = 'Submitting...';
+        
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors', // Required for Google Apps Script Web Apps
+          cache: 'no-cache',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        // Since mode is 'no-cors', we can't read the response.
+        // We assume success if no error was thrown.
+        modal.classList.add('show');
+        form.reset();
+        
+        // Reset UI state
+        document.querySelectorAll('.file-name').forEach(el => { el.textContent = ''; el.classList.add('hidden'); });
+        document.querySelectorAll('.file-upload').forEach(el => el.classList.remove('has-file'));
+        document.getElementById('district').disabled = true;
+        document.getElementById('localLevel').disabled = true;
+        document.getElementById('districtTemp').disabled = true;
+        document.getElementById('localLevelTemp').disabled = true;
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Submission failed. Please check your connection and try again.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Registration';
+      }
+    });
+  </script>
+</body>
+</html>
